@@ -15,8 +15,6 @@
         width: 100%;
         height: 80vh;
         background: url('@bannerImage.Url()') center center;
-
-
         background-size: cover;
         position: relative;
     }
@@ -84,7 +82,7 @@
                     </p>
 
                     @{
-                       var bullets = Model.BulletPoints?.Select(x =>x.Content).ToList();
+                        var bullets = Model.BulletPoints?.Select(x => x.Content).ToList();
                         if (bullets!.Any())
                         {
                             <ul>
@@ -96,7 +94,7 @@
                             </ul>
 
                         }
-                    }
+                                }
 
                     <p class="fst-italic">
 
@@ -186,20 +184,20 @@
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
         <div class="container">
+            @{CallToActionBlock cta = Model.CTA.Content;}
 
             <div class="text-center" data-aos="zoom-in">
-                <h3>Call To Action</h3>
+                <h3>@cta.Headline</h3>
                 <p>
-                    Ready to turn your vision into reality? Dive into our portfolio to witness the depth of our creativity and expertise.
-                    Whether you're seeking design inspiration, exploring potential collaborations, or envisioning your next project, let our portfolio be your guide.
-                    Take the first step towards excellence – contact us today to bring your ideas to life.
-                    Your journey to extraordinary possibilities begins here!
+                    @cta.Text
                 </p>
-                <a class="cta-btn" href="#portfolio">Our Range</a>
+                <a class="cta-btn" href="@cta.Link?.Url">@cta.Link?.Name</a>
             </div>
 
         </div>
-    </section><!-- End Cta Section -->
+    </section>
+    <!-- End Cta Section -->
+
     <!-- ======= Services Section ======= -->
     <section id="services" class="services section-bg">
         <div class="container">
@@ -252,6 +250,11 @@
         </div>
     </section><!-- End Services Section -->
     <!-- ======= Portfolio Section ======= -->
+
+    @{
+        var folios = Model.PortfolioItems?.Select(x => x.Content).ToList();
+        ;
+    }
     <section id="portfolio" class="portfolio">
         <div class="container">
 
@@ -276,134 +279,30 @@
 
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/cute-doll.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Cute Doll</h4>
-                            <p>Treat someone special</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/cute-doll.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Cute Doll"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @{
+                    foreach(CardBlock item in folios!)
+                    {
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/crochet-bag.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Crochet Bag</h4>
-                            <p>Web</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/crochet-bag.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Crochet Bag"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                            <div class="portfolio-wrap">
+                                <img src="@item.Image?.Url()" class="img-fluid" alt="">
+                                <div class="portfolio-info">
+                                    <h4>@item.Headline</h4>
+                                    <p>@item.RichText</p>
+                                    <div class="portfolio-links">
+                                        <a href="@item.Image?.Url()" data-gallery="portfolioGallery" class="portfolio-lightbox" title="@item.Headline"><i class="bx bx-plus"></i></a>
+                                        <a href="@item.FolioLink?.Url" title="More Details"><i class="bx bx-link"></i></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/baby-blanket.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Baby Blanket</h4>
-                            <p>App</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/baby-blanket.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Baby Blanket"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
+                    }
+                }
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/octopus.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Octopus</h4>
-                            <p>Card</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/octopus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Octopus"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Web 2</h4>
-                            <p>Web</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 2"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>App 3</h4>
-                            <p>App</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 3"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Card 1</h4>
-                            <p>Card</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Card 3</h4>
-                            <p>Card</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 3"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                    <div class="portfolio-wrap">
-                        <img src="~/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-                        <div class="portfolio-info">
-                            <h4>Web 3</h4>
-                            <p>Web</p>
-                            <div class="portfolio-links">
-                                <a href="~/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
             </div>
-
         </div>
     </section><!-- End Portfolio Section -->
     <!-- ======= Testimonials Section ======= -->
