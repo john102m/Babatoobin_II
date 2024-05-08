@@ -16,6 +16,7 @@
   --footerLink: #B864C3;
   --logoText: #FBEEFA;
   --white: #ffffff;
+  --linksHover: #E85BEB
 }
 
 body {
@@ -111,6 +112,7 @@ h6 {
 #header .logo {
   overflow: hidden;
   padding: 16px 30px 12px 30px;
+  border-radius: 15px;
   background: var(--themeBackground);
 }
 
@@ -877,7 +879,7 @@ section {
 }
 
 .portfolio .portfolio-wrap .portfolio-links a:hover {
-  color: #00cc95;
+  color: var(--linksHover);;
 }
 
 .portfolio .portfolio-wrap:hover::before {
