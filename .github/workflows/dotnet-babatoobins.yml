@@ -52,9 +52,9 @@ jobs:
       - name: copy file to server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PASSWORD }}
+          host:  5.77.41.136
+          username: spoochco
+          password: a^1!8mk8YYG6X
 
           source: distfiles/*
           target: /babs.spooch.co.uk
