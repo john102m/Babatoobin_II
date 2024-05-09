@@ -41,7 +41,7 @@ jobs:
           dotnet build --configuration Release
           #dotnet publish -c Release --property PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp 
       - name: Publish
-        run: dotnet publish -c Release -o out
+        run: dotnet publish -c Release --property PublishDir=out
   
       - name: Copy files to the server
       
