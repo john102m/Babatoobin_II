@@ -55,6 +55,6 @@ jobs:
           host:  5.77.41.136
           username: spoochco
           password: a^1!8mk8YYG6X
-
+          port: 21
           source: distfiles/*
           target: /babs.spooch.co.uk
