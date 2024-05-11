@@ -10,13 +10,13 @@
 # General
 --------------------------------------------------------------*/
 :root {
-  --themeBackground: #E85BEB;
-  --themeBorder: #BD8EBE;
-  --themeIcon: #E85BEB;
-  --footerLink: #B864C3;
-  --logoText: #FBEEFA;
-  --white: #ffffff;
-  --linksHover: #E85BEB
+    --themeBackground: #E85BEB;
+    --themeBorder: #BD8EBE;
+    --themeIcon: #E85BEB;
+    --footerLink: #B864C3;
+    --logoText: #FBEEFA;
+    --white: #ffffff;
+    --linksHover: #BA55D3
 }
 
 body {
@@ -879,7 +879,7 @@ section {
 }
 
 .portfolio .portfolio-wrap .portfolio-links a:hover {
-  color: var(--linksHover);;
+  color: var(--linksHover);
 }
 
 .portfolio .portfolio-wrap:hover::before {
@@ -1460,8 +1460,8 @@ section {
   transition: 0.3s;
 }
 
-#footer .social-links a:hover {
-  background: #00805d;
-  color: #fff;
-  text-decoration: none;
-}
+    #footer .social-links a:hover {
+        background: var(--linksHover);
+        color: #fff;
+        text-decoration: none;
+    }
