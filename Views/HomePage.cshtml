@@ -1,6 +1,7 @@
 ﻿@using Umbraco.Cms.Core.Models.Blocks
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HomePage>
+
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 
 @{
@@ -252,7 +253,8 @@
     <!-- ======= Portfolio Section ======= -->
 
     @{
-        var folios = Model.PortfolioItems?.Select(x => x.Content).ToList();
+        var products = Model.DescendantOfType("products"); 
+        //Umbraco.ContentAtRoot().
         ;
     }
     <section id="portfolio" class="portfolio">
@@ -280,21 +282,22 @@
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
                 @{
-                    foreach(CardBlock item in folios!)
+                    foreach (ProductBlock product in products!.Children())
                     {
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="col-lg-4 col-md-6 portfolio-item filter-@product.Category">
                             <div class="portfolio-wrap">
-                                <img src="@item.Image?.Url()" class="img-fluid" alt="">
+                                <img src="@product.Image?.Url()" class="img-fluid" alt="">
                                 <div class="portfolio-info">
-                                    <h4>@item.Headline</h4>
-                                    <p>@item.RichText</p>
+                                    <h4>@product.Headline</h4>
+                                    <p>@product.TagLine</p>
                                     <div class="portfolio-links">
-                                        <a href="@item.Image?.Url()" data-gallery="portfolioGallery" class="portfolio-lightbox" title="@item.Headline"><i class="bx bx-plus"></i></a>
-                                        <a href="@item.FolioLink?.Url" title="More Details"><i class="bx bx-link"></i></a>
+                                        <a href="@product.Image?.Url()" data-gallery="portfolioGallery" class="portfolio-lightbox" title="@product.Headline"><i class="bx bx-plus"></i></a>
+                                        <a href="@product.FolioLink?.Url" title="More Details"><i class="bx bx-link"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>             
+
                     }
                 }
 
