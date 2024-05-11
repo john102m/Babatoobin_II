@@ -15,7 +15,7 @@
     #hero {
         width: 100%;
         height: 80vh;
-        background: url('@bannerImage.Url()') center center;
+        background: url('@bannerImage?.Url()') center center;
         background-size: cover;
         position: relative;
     }
@@ -35,7 +35,6 @@
     <!-- ======= Clients Section ======= -->
     <section id="clients" class="clients">
         <div class="container">
-
             <div class="row">
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="100">
@@ -66,14 +65,13 @@
 
         </div>
     </section><!-- End Clients Section -->
+
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
         <div class="container">
 
             <div class="row content">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
-                    @* here *@
-                    @* @Model.AboutText *@
                     <h2>@Model.AboutTitle</h2>
                     <h3>@Model.AboutSubtitle</h3>
                 </div>
@@ -89,7 +87,7 @@
                             <ul>
                                 @foreach (BulletPoint bullet in bullets!)
                                 {
-                                    <li><i class="ri-check-double-line"></i><strong>@bullet.Tagline</strong>@bullet.Text</li>
+                                    <li><i class="ri-check-double-line"></i><strong>@bullet.Tagline</strong>&nbsp;@bullet.Text</li>
                                 }
 
                             </ul>
@@ -105,6 +103,7 @@
 
         </div>
     </section><!-- End About Section -->
+
     <!-- ======= Counts Section ======= -->
     <section id="counts" class="counts">
         <div class="container">
@@ -135,6 +134,7 @@
 
         </div>
     </section><!-- End Counts Section -->
+
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
         <div class="container">
@@ -182,6 +182,7 @@
 
         </div>
     </section><!-- End Why Us Section -->
+
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
         <div class="container">
@@ -250,6 +251,7 @@
 
         </div>
     </section><!-- End Services Section -->
+
     <!-- ======= Portfolio Section ======= -->
 
     @{
@@ -288,8 +290,13 @@
                                     <h4>@product.Headline</h4>
                                     <p>@product.TagLine</p>
                                     <div class="portfolio-links">
+                                        @{
+                                            var thing = product.DetailLink?.Url;
+                                            ;
+                                        }
+
                                         <a href="@product.Image?.Url()" data-gallery="portfolioGallery" class="portfolio-lightbox" title="@product.Headline"><i class="bx bx-plus"></i></a>
-                                        <a href="@product.FolioLink?.Url" title="More Details"><i class="bx bx-link"></i></a>
+                                        <a href="@product.DetailLink?.Url?productId=@product.Id" title="More Details"><i class="bx bx-link"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -301,6 +308,7 @@
             </div>
         </div>
     </section><!-- End Portfolio Section -->
+
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials section-bg">
         <div class="container">
@@ -397,6 +405,7 @@
 
         </div>
     </section><!-- End Testimonials Section -->
+
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
         <div class="container">
@@ -458,3 +467,6 @@
     </section><!-- End Contact Section -->
 
 </main><!-- End #main -->
+
+<script src="~/js/mapicon.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9m90eFNzIMq3_iapaF5thOom-CxPe1pw&loading=async&callback=myMap" async defer> </script>

@@ -111,7 +111,7 @@ h6 {
 
 #header .logo {
   overflow: hidden;
-  padding: 16px 30px 12px 30px;
+  padding: 26px 30px 10px 30px;
   border-radius: 15px;
   background: var(--themeBackground);
 }
@@ -206,7 +206,7 @@ h6 {
 .navbar .active,
 .navbar .active:focus,
 .navbar li:hover>a {
-  color: var(--themeBackground);
+  color: var(--linksHover);
 }
 
 .navbar .getstarted,
@@ -222,7 +222,7 @@ h6 {
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
   color: #fff;
-  background: var(--themeBorder);
+  background: var(--themeBackground);
 }
 
 .navbar .dropdown ul {
@@ -321,6 +321,10 @@ h6 {
   background: rgba(29, 28, 31, 0.9);
   transition: 0.3s;
   z-index: 999;
+  
+}
+.navbar-ul {
+    border-radius: 15px;
 }
 
 .navbar-mobile .mobile-nav-toggle {

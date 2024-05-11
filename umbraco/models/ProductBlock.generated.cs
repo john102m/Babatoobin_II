@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Product Item</summary>
 	[PublishedModel("productBlock")]
-	public partial class ProductBlock : PublishedContentModel
+	public partial class ProductBlock : PublishedContentModel, IDetailBlock
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -58,20 +58,12 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string Category => this.Value<string>(_publishedValueFallback, "category");
 
 		///<summary>
-		/// Description
+		/// Detail Link
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("description")]
-		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString Description => this.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(_publishedValueFallback, "description");
-
-		///<summary>
-		/// Folio Link
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("folioLink")]
-		public virtual global::Umbraco.Cms.Core.Models.Link FolioLink => this.Value<global::Umbraco.Cms.Core.Models.Link>(_publishedValueFallback, "folioLink");
+		[ImplementPropertyType("detailLink")]
+		public virtual global::Umbraco.Cms.Core.Models.Link DetailLink => this.Value<global::Umbraco.Cms.Core.Models.Link>(_publishedValueFallback, "detailLink");
 
 		///<summary>
 		/// Headline
@@ -104,5 +96,45 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("tagLine")]
 		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString TagLine => this.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(_publishedValueFallback, "tagLine");
+
+		///<summary>
+		/// Detail Description: Product description
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("detailDescription")]
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString DetailDescription => global::Umbraco.Cms.Web.Common.PublishedModels.DetailBlock.GetDetailDescription(this, _publishedValueFallback);
+
+		///<summary>
+		/// Detail Heading: Description heading
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("detailHeading")]
+		public virtual string DetailHeading => global::Umbraco.Cms.Web.Common.PublishedModels.DetailBlock.GetDetailHeading(this, _publishedValueFallback);
+
+		///<summary>
+		/// Detail Summary: Project Box
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("detailSummary")]
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString DetailSummary => global::Umbraco.Cms.Web.Common.PublishedModels.DetailBlock.GetDetailSummary(this, _publishedValueFallback);
+
+		///<summary>
+		/// Image Carousel: Product detail images
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("imageCarousel")]
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Cms.Core.Models.MediaWithCrops> ImageCarousel => global::Umbraco.Cms.Web.Common.PublishedModels.DetailBlock.GetImageCarousel(this, _publishedValueFallback);
+
+		///<summary>
+		/// Project Title: Appears in product detail
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("projectTitle")]
+		public virtual string ProjectTitle => global::Umbraco.Cms.Web.Common.PublishedModels.DetailBlock.GetProjectTitle(this, _publishedValueFallback);
 	}
 }
