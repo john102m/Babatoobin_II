@@ -45,8 +45,12 @@
 
 
     @RenderBody()
+
+    <!-- ======= Footer ======= -->
+    @await Html.PartialAsync("PageFooter")
+
     <!-- Footer -->
-    <div class="container-fluid footer">
+@*     <div class="container-fluid footer">
         <div class="container">
 
             @Model.Value("footerText", fallback: Fallback.ToDefaultValue, defaultValue: new HtmlString("Copyright 2024 Babatoobins"))
@@ -55,7 +59,7 @@
             </div>
         </div>
 
-    </div>
+    </div> *@
 
 
     <!-- Scripts -->
@@ -75,6 +79,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 @*     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9m90eFNzIMq3_iapaF5thOom-CxPe1pw&loading=async&callback=myMap" async defer></script> *@
+    <script src="~/js/mapicon.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9m90eFNzIMq3_iapaF5thOom-CxPe1pw&loading=async&callback=myMap" async defer> </script>
+
 </body>
 </html>
 
