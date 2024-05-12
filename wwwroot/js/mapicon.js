@@ -4,14 +4,14 @@
     var mapCanvas = document.getElementById("map");
     var mapOptions = { center: myCenter, zoom: 12 };
     var map = new google.maps.Map(mapCanvas, mapOptions);
-    var marker = new google.maps.Marker(
-        {
-            position: myCenter,
-            icon: "img/favicon.png",
-            title: "Babatoobins, busy bee",
-        });
+    //var marker = new google.maps.Marker(
+    //    {
+    //        position: myCenter,
+    //        icon: "img/favicon.png",
+    //        title: "Babatoobins, busy bee",
+    //    });
 
-    marker.setMap(map);
+    //marker.setMap(map);
 
     const infoWindow = new google.maps.InfoWindow({
         content: document.getElementById('infobox-content').innerHTML,

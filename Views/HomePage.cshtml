@@ -8,6 +8,8 @@
     Layout = "Layout.cshtml";
     var bannerImage = Model.BannerImage;
 }
+<partial name="_StatusMessage" />
+
 <style>
     #hero {
         width: 100%;
@@ -475,5 +477,12 @@
 
 </main><!-- End #main -->
 
-<script src="~/js/mapicon.js"></script>
+<script src="~/js/mapicon.js"></script> 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9m90eFNzIMq3_iapaF5thOom-CxPe1pw&loading=async&callback=myMap" async defer> </script>
+
+<div class="infobox" id="infobox-content" hidden>
+    <h3 style'color:blue;'>Babatoobins</h3>
+    <p>Address: [The Hoos]</p>
+    <p>Phone: [Get me oan ma mobile after 6 and at weekends]</p>
+    <p>Website: <a href="#">Visit Website</a></p>
+</div>

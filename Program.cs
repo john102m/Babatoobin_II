@@ -1,4 +1,8 @@
+using Babatoobin_II.Services;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IMailService, MailService>();
 
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
