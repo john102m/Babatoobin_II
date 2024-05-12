@@ -90,6 +90,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListItem<global::Umbraco.Cms.Web.Common.PublishedModels.CallToActionBlock> CTA => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListItem<global::Umbraco.Cms.Web.Common.PublishedModels.CallToActionBlock>>(_publishedValueFallback, "cTA");
 
 		///<summary>
+		/// Email Recipients
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("emailRecipients")]
+		public virtual global::System.Collections.Generic.IEnumerable<string> EmailRecipients => this.Value<global::System.Collections.Generic.IEnumerable<string>>(_publishedValueFallback, "emailRecipients");
+
+		///<summary>
 		/// Banner Image
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]

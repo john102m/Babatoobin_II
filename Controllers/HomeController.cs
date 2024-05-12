@@ -9,6 +9,7 @@ using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Filters;
+using Umbraco.Cms.Web.Common.PublishedModels;
 using Umbraco.Cms.Web.Website.Controllers;
 
 namespace Babatoobin_II.Controllers
@@ -51,13 +52,17 @@ namespace Babatoobin_II.Controllers
             }
             return Ok(rootNode.Select(x => x.Name));
 
-
         }
         [HttpPost]
         [ValidateUmbracoFormRouteString]
         public async Task<IActionResult> HandleSubmit()
         {
-            //TODO implement email service and reCaptcha
+            IPublishedContent? rootNode = _umbracoHelper.ContentAtRoot().FirstOrDefault();
+            IEnumerable<string>? recipients = (IEnumerable<string>?)rootNode!.Value("emailRecipients"); 
+            if (recipients == null) { 
+                return RedirectToCurrentUmbracoUrl(); 
+            }
+            //TODO implement  reCaptcha
             var form = await HttpContext.Request.ReadFormAsync();
             var contentService = Services.ContentService;
 
@@ -65,7 +70,7 @@ namespace Babatoobin_II.Controllers
             MailRequest mailRequest = new MailRequest
             {
                 
-                ToEmail = "john_m102uk@yahoo.co.uk",//"barbaragilchrist52@gmail.com",//
+                ToEmail = recipients.FirstOrDefault(),//"john_m102uk@yahoo.co.uk",//"barbaragilchrist52@gmail.com",//
                 Body = clientMessage.Message,
                 Subject = form["subject"],
                 Attachments = null
