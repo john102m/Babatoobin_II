@@ -16,7 +16,7 @@
     --footerLink: #B864C3;
     --logoText: #FBEEFA;
     --white: #ffffff;
-    --linksHover: #BA55D3; 
+    --linksHover: #bb0ee6;
     --portfolioWrap: rgba(54, 52, 58, 0.1);
 }
 
@@ -31,7 +31,7 @@ a {
 }
 
 a:hover {
-  color: #00cc95;
+  color: var(--linksHover);
   text-decoration: none;
 }
 
@@ -72,7 +72,7 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: var(--themeBorder);
+  background: var(--linksHover);
   color: #fff;
 }
 
@@ -1442,7 +1442,7 @@ section {
 }
 
 #footer .footer-newsletter form input[type=submit]:hover {
-  background: var(--themeBorder);
+  background: var(--linksHover);
 }
 
 #footer .credits {
@@ -1466,8 +1466,8 @@ section {
   transition: 0.3s;
 }
 
-    #footer .social-links a:hover {
-        background: var(--linksHover);
-        color: #fff;
-        text-decoration: none;
-    }
+#footer .social-links a:hover {
+    background: var(--linksHover);
+    color: #fff;
+    text-decoration: none;
+}

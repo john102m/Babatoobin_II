@@ -16,11 +16,11 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>@product?.Headline</h2>
+                <h2>@product?.Value("headline", fallback: Fallback.ToDefaultValue, defaultValue: @product.Name)</h2>
                 <ol>
                     <li><a href="\">Home</a></li>
-                    <li><a href="@Model.Root().Url()#portfolio">Portfolio</a></li>
-                    <li>@product?.Headline</li>
+                    <li><a href="@Model.Root().Url()#portfolio">Projects</a></li>
+                    <li>@product?.Name</li>
                 </ol>
             </div>
 
@@ -49,7 +49,7 @@
 
                 <div class="col-lg-4">
                     <div class="portfolio-info">
-                        <h3>@product.ProjectTitle</h3>
+                        <h3>@product?.Value("projectTitle", fallback: Fallback.ToDefaultValue, defaultValue: @product.Name)</h3>
                         @product.DetailSummary
                     </div>
                     <div class="portfolio-description">

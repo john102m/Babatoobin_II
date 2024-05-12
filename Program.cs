@@ -20,6 +20,7 @@ app.UseUmbraco()
     })
     .WithEndpoints(u =>
     {
+        u.EndpointRouteBuilder.MapControllerRoute(name: "default", pattern: "/{controllername}/{action}/{id}");
         u.UseInstallerEndpoints();
         u.UseBackOfficeEndpoints();
         u.UseWebsiteEndpoints();
