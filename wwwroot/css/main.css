@@ -316,3 +316,23 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
     max-width: 100%;
     height: auto;
 }
+
+
+/* ---------- IMAGE DIMENSIONS GETCROPURL ---------- */
+.square-image {
+    display: block;
+}
+
+.photo-image {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .square-image {
+        display: none;
+    }
+
+    .photo-image {
+        display: block;
+    }
+}

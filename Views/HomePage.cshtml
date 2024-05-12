@@ -1,14 +1,10 @@
 ﻿@using Umbraco.Cms.Core.Models.Blocks
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HomePage>
-
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 
 @{
     Layout = "Layout.cshtml";
-}
-
-@{
     var bannerImage = Model.BannerImage;
 }
 <style>
@@ -19,6 +15,7 @@
         background-size: cover;
         position: relative;
     }
+
 </style>
 
 <!-- ======= Hero Section ======= -->
@@ -38,7 +35,7 @@
             <div class="row">
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="100">
-                    <img src= "~/img/clients/client-1.png" class="img-fluid" alt="">
+                    <img src="~/img/clients/client-1.png" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="200">
@@ -65,7 +62,6 @@
 
         </div>
     </section><!-- End Clients Section -->
-
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
         <div class="container">
@@ -93,7 +89,7 @@
                             </ul>
 
                         }
-                                }
+                    }
 
                     <p class="fst-italic">
 
@@ -103,7 +99,6 @@
 
         </div>
     </section><!-- End About Section -->
-
     <!-- ======= Counts Section ======= -->
     <section id="counts" class="counts">
         <div class="container">
@@ -134,7 +129,6 @@
 
         </div>
     </section><!-- End Counts Section -->
-
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
         <div class="container">
@@ -182,11 +176,12 @@
 
         </div>
     </section><!-- End Why Us Section -->
-
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
         <div class="container">
-            @{CallToActionBlock cta = Model.CTA.Content;}
+            @{
+                CallToActionBlock cta = Model.CTA!.Content;
+            }
 
             <div class="text-center" data-aos="zoom-in">
                 <h3>@cta.Headline</h3>
@@ -199,7 +194,6 @@
         </div>
     </section>
     <!-- End Cta Section -->
-
     <!-- ======= Services Section ======= -->
     <section id="services" class="services section-bg">
         <div class="container">
@@ -251,11 +245,9 @@
 
         </div>
     </section><!-- End Services Section -->
-
     <!-- ======= Portfolio Section ======= -->
-
     @{
-        Products? products = (Products?)Model.DescendantOfType("products"); 
+        Products? products = (Products?)Model.DescendantOfType("products");
         //Umbraco.ContentAtRoot().
     }
     <section id="portfolio" class="portfolio">
@@ -278,6 +270,8 @@
                 </div>
             </div>
 
+
+
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
                 @{
@@ -285,22 +279,26 @@
                     {
                         <div class="col-lg-4 col-md-6 portfolio-item filter-@product.Category">
                             <div class="portfolio-wrap">
-                                <img src="@product.Image?.Url()" class="img-fluid" alt="">
+
+                                <span class="square-image">
+                                    <img src="@product.Image?.GetCropUrl("square")" class="img-fluid" alt="">
+                                </span>
+
+                                <span class="photo-image">
+                                    <img src="@product.Image?.GetCropUrl("photo")" class="img-fluid" alt="">
+                                </span>
+
                                 <div class="portfolio-info">
                                     <h4>@product.Headline</h4>
                                     <p>@product.TagLine</p>
                                     <div class="portfolio-links">
-                                        @{
-                                            var thing = product.DetailLink?.Url;
-                                            ;
-                                        }
 
                                         <a href="@product.Image?.Url()" data-gallery="portfolioGallery" class="portfolio-lightbox" title="@product.Headline"><i class="bx bx-plus"></i></a>
                                         <a href="@product.DetailLink?.Url?productId=@product.Id" title="More Details"><i class="bx bx-link"></i></a>
                                     </div>
                                 </div>
                             </div>
-                        </div>             
+                        </div>
 
                     }
                 }
@@ -308,7 +306,6 @@
             </div>
         </div>
     </section><!-- End Portfolio Section -->
-
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials section-bg">
         <div class="container">
@@ -405,7 +402,6 @@
 
         </div>
     </section><!-- End Testimonials Section -->
-
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
         <div class="container">
