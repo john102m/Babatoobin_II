@@ -8,7 +8,6 @@
 
     string? Id = HttpContextAccessor.HttpContext?.Request.Query["productId"];
     ProductBlock? product = (ProductBlock?)Umbraco.Content(Id!);
-    ;
 }
 
 <main id="main">
@@ -34,7 +33,6 @@
                 <div class="col-lg-8">
                     <div class="portfolio-details-slider swiper">
                         <div class="swiper-wrapper align-items-center">
-
                             @{
                                 foreach (var image in product?.ImageCarousel!)
                                 {
@@ -44,7 +42,6 @@
 
                                 }
                             }
-
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
