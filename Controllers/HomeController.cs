@@ -1,5 +1,6 @@
 ﻿using Babatoobin_II.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Models.PublishedContent;
@@ -9,7 +10,6 @@ using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Filters;
-using Umbraco.Cms.Web.Common.PublishedModels;
 using Umbraco.Cms.Web.Website.Controllers;
 
 namespace Babatoobin_II.Controllers
@@ -17,6 +17,7 @@ namespace Babatoobin_II.Controllers
 
 
     public class HomeController(
+        IWebHostEnvironment env,
         IMailService mailservice,
         UmbracoHelper umbracoHelper,
         IUmbracoContextAccessor umbracoContextAccessor,
@@ -27,9 +28,10 @@ namespace Babatoobin_II.Controllers
     {
         private readonly UmbracoHelper _umbracoHelper = umbracoHelper;
         private readonly IMailService _mailService = mailservice;
+        private readonly IWebHostEnvironment _env = env;
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string? StatusMessage { get; set; }
 
         public IActionResult GetHomeNodeName()
         {
@@ -64,17 +66,33 @@ namespace Babatoobin_II.Controllers
             }
             //TODO implement  reCaptcha
             var form = await HttpContext.Request.ReadFormAsync();
-            var contentService = Services.ContentService;
+            //var contentService = Services.ContentService;
 
-            ClientMessage clientMessage = new ClientMessage(form["subject"],form["message"], form["name"], form["email"]);
+
+            var subject = form["subject"];
+            var message = form["message"];
+            var name = form["name"]; 
+            var email = form["email"];
+
+            string filePath = Path.Combine(_env.WebRootPath, "vendor", "email.html");
+            var msg = System.IO.File.ReadAllText(filePath);
+
+            msg = Regex.Replace(msg, @"\{\{Administrator}}", "Barbara");
+            msg = Regex.Replace(msg, @"\{\{CustomerName}}", name);
+            msg = Regex.Replace(msg, @"\{\{Subject}}", subject);
+            msg = Regex.Replace(msg, @"\{\{CustomerMessage}}", message);
+            msg = Regex.Replace(msg, @"\{\{CompanyName}}", "Babatoobins");
+            msg = Regex.Replace(msg, @"\{\{CustomerEmail}}", email);
+
             MailRequest mailRequest = new MailRequest
             {
                 
                 ToEmail = recipients.FirstOrDefault(),//"john_m102uk@yahoo.co.uk",//"barbaragilchrist52@gmail.com",//
-                Body = clientMessage.Message,
+                Body =  msg,
                 Subject = form["subject"],
                 Attachments = null
             };
+
             StatusMessage = await _mailService.SendEmailAsync(mailRequest);
             StatusMessage = StatusMessage.Contains("Requested mail action okay, completed") ? "Success! Your message has been sent" : "Warning! Message not sent,\n\r please try again later";
             //return RedirectToAction("ViewAction", new { productId = "1148" });
@@ -82,30 +100,6 @@ namespace Babatoobin_II.Controllers
 
         }
 
-        public record ClientMessage(string? subject, string? message, string? name, string? email)
-        {
-            public string? Message => $"<!DOCTYPE html>" +
-                $"<html lang=\"en\">" +
-                $"<head>" +
-                $"<meta charset=\"UTF-8\">" +
-                $"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
-                $"<title>Customer Enquiry</title>" +
-                $"<style>body {{font-family: Arial, sans-serif;background-color: #f7f7f7;color: #333;padding: 20px;font-size: 17px;}}" +
-                $"h2 {{color: #004a8f;}}" +
-                $"p {{margin-bottom: 10px;}}" +
-                $"strong {{color: #004a8f;}}" +
-                $"</style>" +
-                $"</head>" +
-                $"<body>" +
-                $"<h2>Customer Enquiry</h2>" +
-                $"<p><strong>Sender's Name:</strong>{name}</p>" +
-                $"<p><strong>Email Address:</strong>{email}</p>" +
-                $"<p><strong>Subject:</strong> {subject}</p>" +
-                $"<p><strong>Message:</strong><br/><br/><span style=\"color:darkslateblue;font-size: 17px\">{message}</span></p>" +
-                $"</body>" +
-                $"</html>";
-
-        }
         public ActionResult ViewAction()
         {
             IPublishedContent? rootNode = _umbracoHelper.ContentAtRoot().FirstOrDefault();
