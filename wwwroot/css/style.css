@@ -18,6 +18,8 @@
     --white: #ffffff;
     --linksHover: #bb0ee6;
     --portfolioWrap: rgba(54, 52, 58, 0.1);
+    /*--portfolioWrap: rgba(255, 255, 255, 0.01);*/
+    
 }
 
 body {

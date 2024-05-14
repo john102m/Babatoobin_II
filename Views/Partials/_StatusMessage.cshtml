@@ -3,10 +3,11 @@
 }
 @if (message != null)
 {
-    string msgType = (message.Contains("Success")) ? "Success" : "Warning";
+    string msgType = (message.Contains("sent")) ? "Success" : "danger";
+    var alert = msgType! == "Success" ? msgType! : "Error";
 
     <div class="alert alert-@msgType.ToLower() alert-dismissible fade show" role="alert" style="z-index:999;top:150px;width:50%;margin:auto;">
-        <strong>@msgType!</strong> @message.Substring(9);
+        <strong>@alert</strong>&nbsp @message;
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 

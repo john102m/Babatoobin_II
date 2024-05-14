@@ -18,8 +18,8 @@
         ariaLabel: "Babatoobins",
     });
 
-    marker.addListener("click", () => {
-        infoWindow.open({ anchor: marker, map, });
+    //marker.addListener("click", () => {
+    //    infoWindow.open({ anchor: marker, map, });
 
-    });
+    //});
 }

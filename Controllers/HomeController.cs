@@ -1,5 +1,6 @@
 ﻿using Babatoobin_II.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
@@ -60,9 +61,10 @@ namespace Babatoobin_II.Controllers
         public async Task<IActionResult> HandleSubmit()
         {
             IPublishedContent? rootNode = _umbracoHelper.ContentAtRoot().FirstOrDefault();
-            IEnumerable<string>? recipients = (IEnumerable<string>?)rootNode!.Value("emailRecipients"); 
-            if (recipients == null) { 
-                return RedirectToCurrentUmbracoUrl(); 
+            IEnumerable<string>? recipients = (IEnumerable<string>?)rootNode!.Value("emailRecipients");
+            if (recipients == null)
+            {
+                return RedirectToCurrentUmbracoUrl();
             }
             //TODO implement  reCaptcha
             var form = await HttpContext.Request.ReadFormAsync();
@@ -71,7 +73,7 @@ namespace Babatoobin_II.Controllers
 
             var subject = form["subject"];
             var message = form["message"];
-            var name = form["name"]; 
+            var name = form["name"];
             var email = form["email"];
 
             string filePath = Path.Combine(_env.WebRootPath, "vendor", "email.html");
@@ -86,15 +88,18 @@ namespace Babatoobin_II.Controllers
 
             MailRequest mailRequest = new MailRequest
             {
-                
                 ToEmail = recipients.FirstOrDefault(),//"john_m102uk@yahoo.co.uk",//"barbaragilchrist52@gmail.com",//
-                Body =  msg,
+                CcEmails = recipients.SkipWhile(x => x == recipients.FirstOrDefault()).ToList(),
+                Body = msg,
                 Subject = form["subject"],
                 Attachments = null
             };
 
+
             StatusMessage = await _mailService.SendEmailAsync(mailRequest);
-            StatusMessage = StatusMessage.Contains("Requested mail action okay, completed") ? "Success! Your message has been sent" : "Warning! Message not sent,\n\r please try again later";
+            StatusMessage = StatusMessage.Contains("Requested mail action okay, completed") ? "Your message has been sent" : $"{StatusMessage}";
+
+
             //return RedirectToAction("ViewAction", new { productId = "1148" });
             return RedirectToCurrentUmbracoUrl();
 

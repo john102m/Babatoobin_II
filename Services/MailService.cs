@@ -7,11 +7,12 @@ namespace Babatoobin_II.Services
 {
     public class MailService : IMailService
     {
-        private  MailSettings? MailSettings;
+        private MailSettings? MailSettings;
         public MailService(IConfiguration config)
         {
 
-            MailSettings = new MailSettings { 
+            MailSettings = new MailSettings
+            {
                 Mail = config["MailSettings:Mail"],
                 DisplayName = config["MailSettings:DisplayName"],
                 Password = config["MailSettings:Password"],
@@ -24,30 +25,44 @@ namespace Babatoobin_II.Services
         public async Task<string> SendEmailAsync(MailRequest mailRequest)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(MailSettings?.Mail));
-            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
-            //email.Cc.Add(MailboxAddress.Parse(mailRequest.CcEmail));
-            email.Subject = mailRequest.Subject;
 
-            var builder = new BodyBuilder();
-            if (mailRequest.Attachments != null)
+            try
             {
-                byte[] fileBytes;
-                foreach (var file in mailRequest.Attachments)
+                email.From.Add(MailboxAddress.Parse(MailSettings?.Mail));
+                email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+                mailRequest.CcEmails!.ForEach(x => { email.Cc.Add(MailboxAddress.Parse(x)); });
+
+                email.Subject = mailRequest.Subject;
+
+                var builder = new BodyBuilder();
+                if (mailRequest.Attachments != null)
                 {
-                    if (file.Length > 0)
+                    byte[] fileBytes;
+                    foreach (var file in mailRequest.Attachments)
                     {
-                        using (var ms = new MemoryStream())
+                        if (file.Length > 0)
                         {
-                            file.CopyTo(ms);
-                            fileBytes = ms.ToArray();
+                            using (var ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                fileBytes = ms.ToArray();
+                            }
+                            builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
                         }
-                        builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
                     }
                 }
+                builder.HtmlBody = mailRequest.Body;
+                email.Body = builder.ToMessageBody();
+
             }
-            builder.HtmlBody = mailRequest.Body;
-            email.Body = builder.ToMessageBody();
+            catch (Exception e)
+            {
+                ;
+                Console.WriteLine(e.Message);
+                return "Incorrect email recipient";// e.Message;
+            }
+
+
 
             var message = "";
 
@@ -72,6 +87,7 @@ namespace Babatoobin_II.Services
             {
 
                 Console.WriteLine(e.Message);
+                return e.Message;
             }
             finally
             {

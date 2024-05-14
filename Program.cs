@@ -30,5 +30,4 @@ app.UseUmbraco()
         u.UseWebsiteEndpoints();
     });
 
-app.UseStaticFiles();
 await app.RunAsync();
