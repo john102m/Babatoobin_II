@@ -42,20 +42,19 @@ namespace Babatoobin_II.Controllers
             {
                 return NotFound();
             }
-
             return Ok(rootNode.Name);
         }
         public IActionResult GetAllNodeNames()
         {
-            IEnumerable<IPublishedContent>? rootNode = _umbracoHelper.ContentAtRoot().First().Children();
+            IEnumerable<IPublishedContent>? rootNodeChildren = _umbracoHelper.ContentAtRoot().First().Children();
 
-            if (rootNode is null)
+            if (rootNodeChildren is null)
             {
                 return NotFound();
             }
-            return Ok(rootNode.Select(x => x.Name));
-
+            return Ok(rootNodeChildren.Select(x => x.Name));
         }
+
         [HttpPost]
         [ValidateUmbracoFormRouteString]
         public async Task<IActionResult> HandleSubmit()
@@ -80,11 +79,11 @@ namespace Babatoobin_II.Controllers
             var msg = System.IO.File.ReadAllText(filePath);
 
             msg = Regex.Replace(msg, @"\{\{Administrator}}", "Barbara");
-            msg = Regex.Replace(msg, @"\{\{CustomerName}}", name);
-            msg = Regex.Replace(msg, @"\{\{Subject}}", subject);
-            msg = Regex.Replace(msg, @"\{\{CustomerMessage}}", message);
+            msg = Regex.Replace(msg, @"\{\{CustomerName}}", name!);
+            msg = Regex.Replace(msg, @"\{\{Subject}}", subject!);
+            msg = Regex.Replace(msg, @"\{\{CustomerMessage}}", message!);
             msg = Regex.Replace(msg, @"\{\{CompanyName}}", "Babatoobins");
-            msg = Regex.Replace(msg, @"\{\{CustomerEmail}}", email);
+            msg = Regex.Replace(msg, @"\{\{CustomerEmail}}", email!);
 
             MailRequest mailRequest = new MailRequest
             {
