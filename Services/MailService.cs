@@ -30,7 +30,10 @@ namespace Babatoobin_II.Services
             {
                 email.From.Add(MailboxAddress.Parse(MailSettings?.Mail));
                 email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
-                mailRequest.CcEmails!.ForEach(x => { email.Cc.Add(MailboxAddress.Parse(x)); });
+                if (mailRequest.CcEmails != null)
+                { 
+                    mailRequest.CcEmails!.ForEach(x => { email.Cc.Add(MailboxAddress.Parse(x)); });
+                }
 
                 email.Subject = mailRequest.Subject;
 

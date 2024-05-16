@@ -1,6 +1,5 @@
 ﻿using Babatoobin_II.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
@@ -12,11 +11,10 @@ using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Filters;
 using Umbraco.Cms.Web.Website.Controllers;
+using static Umbraco.Cms.Core.Collections.TopoGraph;
 
 namespace Babatoobin_II.Controllers
 {
-
-
     public class HomeController(
         IWebHostEnvironment env,
         IMailService mailservice,
@@ -57,51 +55,63 @@ namespace Babatoobin_II.Controllers
 
         [HttpPost]
         [ValidateUmbracoFormRouteString]
+        public async Task<IActionResult> HandleEmail()
+        {
+            var form = await HttpContext.Request.ReadFormAsync();
+            StatusMessage = await SendMail(form, "response_email.html");
+            StatusMessage = StatusMessage.Contains("Requested mail action okay, completed") ? "Your message has been sent" : $"{StatusMessage}";
+            IPublishedContent? homePage = _umbracoHelper.ContentAtRoot().FirstOrDefault(); 
+            return RedirectToUmbracoPage(homePage!.Key);
+        }
+
+        [HttpPost]
+        [ValidateUmbracoFormRouteString]
         public async Task<IActionResult> HandleSubmit()
         {
             IPublishedContent? rootNode = _umbracoHelper.ContentAtRoot().FirstOrDefault();
             IEnumerable<string>? recipients = (IEnumerable<string>?)rootNode!.Value("emailRecipients");
             if (recipients == null)
-            {
-                return RedirectToCurrentUmbracoUrl();
+            { 
+                return RedirectToCurrentUmbracoUrl(); 
             }
+            var ccRecipients = recipients.Count() > 1 ? recipients.SkipWhile(x => x == recipients.FirstOrDefault()).ToList() : null;
+
             //TODO implement  reCaptcha
             var form = await HttpContext.Request.ReadFormAsync();
-            //var contentService = Services.ContentService;
+            StatusMessage = await SendMail(form, "email.html", recipients.FirstOrDefault(), ccRecipients);
+            StatusMessage = StatusMessage.Contains("Requested mail action okay, completed") ? "Your message has been sent" : $"{StatusMessage}";
+            return RedirectToCurrentUmbracoUrl();
 
+        }
 
+        private async Task<string> SendMail(IFormCollection form,  string template, string? recipient = null, List<string>? ccEmails = null)
+        {
             var subject = form["subject"];
             var message = form["message"];
-            var name = form["name"];
+            var customerName = form["name"];
             var email = form["email"];
 
-            string filePath = Path.Combine(_env.WebRootPath, "vendor", "email.html");
+            string filePath = Path.Combine(_env.WebRootPath, "vendor", template);
             var msg = System.IO.File.ReadAllText(filePath);
 
             msg = Regex.Replace(msg, @"\{\{Administrator}}", "Barbara");
-            msg = Regex.Replace(msg, @"\{\{CustomerName}}", name!);
+            msg = Regex.Replace(msg, @"\{\{CustomerName}}", customerName!);
             msg = Regex.Replace(msg, @"\{\{Subject}}", subject!);
             msg = Regex.Replace(msg, @"\{\{CustomerMessage}}", message!);
             msg = Regex.Replace(msg, @"\{\{CompanyName}}", "Babatoobins");
             msg = Regex.Replace(msg, @"\{\{CustomerEmail}}", email!);
+            msg = Regex.Replace(msg, @"\{\{AdministratorMessage}}", message!);
 
             MailRequest mailRequest = new MailRequest
             {
-                ToEmail = recipients.FirstOrDefault(),//"john_m102uk@yahoo.co.uk",//"barbaragilchrist52@gmail.com",//
-                CcEmails = recipients.SkipWhile(x => x == recipients.FirstOrDefault()).ToList(),
+                ToEmail = recipient ?? email,
+                CcEmails = ccEmails,
                 Body = msg,
                 Subject = form["subject"],
                 Attachments = null
             };
 
-
-            StatusMessage = await _mailService.SendEmailAsync(mailRequest);
-            StatusMessage = StatusMessage.Contains("Requested mail action okay, completed") ? "Your message has been sent" : $"{StatusMessage}";
-
-
-            //return RedirectToAction("ViewAction", new { productId = "1148" });
-            return RedirectToCurrentUmbracoUrl();
-
+            return await _mailService.SendEmailAsync(mailRequest);
         }
 
         public ActionResult ViewAction()
