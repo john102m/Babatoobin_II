@@ -335,4 +335,33 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
     .photo-image {
         display: block;
     }
+
+}
+/* Mobile styles */
+@media (max-width: 992px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .search-bar {
+        padding: 5px 15px;
+    }
+    .search-button {
+        background: #fff!important;
+        color: #E85BEB!important;
+    }
+}
+.search-button {
+    float:right; 
+    border: 0px;
+    background:#E85BEB;
+    padding: 5px 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 50px;
+    color: #fff;
+}
+.search-bar {
+    max-width: 300px;
+    padding: 5px 15px;
 }

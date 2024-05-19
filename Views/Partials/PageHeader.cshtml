@@ -1,4 +1,5 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+﻿@using Babatoobin_II.Controllers;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @*     <div class="jumbotron text-center jumbotron-fluid">
         <div class="container">
@@ -8,18 +9,30 @@
 
         </div>
     </div> *@
-
-
-
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container">
         <div class="header-container d-flex align-items-center justify-content-between" style="border-radius:15px;">
             <div class="logo">
-                <h1 class="text-primary"><a href="@Model.Root().Url()"><span class="title-text">Babatoobins</span></a></h1>
+                @* <h1 class="text-primary"><a href="@Model.Root().Url()"><span class="title-text">Babatoobins</span></a></h1> *@
                 <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+                <a href="@Model.Root().Url()"><img src="~/images/logo.png" alt="" class="img-fluid" style="border-radius:50%"></a>
+
             </div>
+            @{
+                var page = Model.AncestorOrSelf();
+                if (page.Name == "Welcome")
+                {
+                    <div class="search-bar">
+                        @using (Html.BeginUmbracoForm<HomeController>("MyIndex"))
+                        {
+                            <input type="text" placeholder="Search Babatoobins" name="query" style="float:left; width:150px;border-radius:5px;" autocomplete="on" />
+                            <button class="search-button bi bi-search search" type="submit">
+                            </button>
+                        }
+                    </div>
+                }
+            }
             @* previous navbar *@
             <nav id="navbar" class="navbar">
                 <ul class="navbar-ul">
@@ -51,8 +64,10 @@
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
-            @Html.Partial("Login Status")
+            @* @Html.Partial("Login Status") *@
+            <partial name="_LoginStatus" />
 
         </div><!-- End Header Container -->
+
     </div>
 </header><!-- End Header -->

@@ -8,6 +8,8 @@
 
     string? Id = HttpContextAccessor.HttpContext?.Request.Query["productId"];
     ProductBlock? product = (ProductBlock?)Umbraco.Content(Id!);
+    var thing = Context?.Request?.Query["query"];
+    TempData["Originator"] = "";
 }
 
 <main id="main">

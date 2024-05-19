@@ -3,6 +3,8 @@ using Babatoobin_II.Services;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddTransient<ISearchService, SearchService>();
+
 
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
@@ -14,7 +16,6 @@ builder.CreateUmbracoBuilder()
 WebApplication app = builder.Build();
 
 await app.BootUmbracoAsync();
-
 
 app.UseUmbraco()
     .WithMiddleware(u =>

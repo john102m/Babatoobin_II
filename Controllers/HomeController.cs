@@ -1,5 +1,7 @@
 ﻿using Babatoobin_II.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
@@ -11,7 +13,6 @@ using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Filters;
 using Umbraco.Cms.Web.Website.Controllers;
-using static Umbraco.Cms.Core.Collections.TopoGraph;
 
 namespace Babatoobin_II.Controllers
 {
@@ -23,14 +24,52 @@ namespace Babatoobin_II.Controllers
         IUmbracoDatabaseFactory databaseFactory,
         ServiceContext services, AppCaches appCaches,
         IProfilingLogger profilingLogger,
-        IPublishedUrlProvider publishedUrlProvider) : SurfaceController(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
+        ICompositeViewEngine compositeViewEngine,
+        IPublishedValueFallback publishedValueFallback,
+        ISearchService searchService,
+    IPublishedUrlProvider publishedUrlProvider) : SurfaceController(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
     {
+        private readonly IPublishedValueFallback _publishedValueFallback = publishedValueFallback;
         private readonly UmbracoHelper _umbracoHelper = umbracoHelper;
         private readonly IMailService _mailService = mailservice;
         private readonly IWebHostEnvironment _env = env;
+        private readonly ISearchService _searchService = searchService;
+        private readonly ICompositeViewEngine _compositeViewEngine = compositeViewEngine;
+
 
         [TempData]
         public string? StatusMessage { get; set; }
+
+        [TempData]
+        public string? SearchResults { get; set; }
+
+        [TempData]
+        public string? Originator { get; set; }
+
+        [HttpPost]
+        [ValidateUmbracoFormRouteString]
+        public async Task<IActionResult> MyIndex()
+        {            
+            Originator = "SearchAction";
+            
+            var form = await HttpContext.Request.ReadFormAsync();
+            var queryString = form["query"];
+            //var content = _searchService.SearchContentNames(queryString!);
+            var items = _searchService.SearchResults(queryString!, out var count);
+                  
+            if (count == 0) return RedirectToCurrentUmbracoPage();
+
+            string[] res = items.Select(x => x.Id.ToString()).ToArray();
+            SearchResults = JsonSerializer.Serialize(res);
+            return RedirectToCurrentUmbracoPage();
+
+        }
+
+        public ActionResult ViewAction()
+        {
+            IPublishedContent? homePage = _umbracoHelper.ContentAtRoot().FirstOrDefault();
+            return View("HomePage", homePage);
+        }
 
         public IActionResult GetHomeNodeName()
         {
@@ -52,6 +91,8 @@ namespace Babatoobin_II.Controllers
             }
             return Ok(rootNodeChildren.Select(x => x.Name));
         }
+
+
 
         [HttpPost]
         [ValidateUmbracoFormRouteString]
@@ -114,11 +155,6 @@ namespace Babatoobin_II.Controllers
             return await _mailService.SendEmailAsync(mailRequest);
         }
 
-        public ActionResult ViewAction()
-        {
-            IPublishedContent? rootNode = _umbracoHelper.ContentAtRoot().FirstOrDefault();
-            IPublishedContent? viewModel = rootNode!.DescendantsOrSelf().Where(x => x.Name == "Product Page").FirstOrDefault();
-            return View("StandardPage", viewModel);
-        }
+
     }
 }

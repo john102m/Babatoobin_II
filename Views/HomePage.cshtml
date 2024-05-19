@@ -1,13 +1,31 @@
-﻿@using Umbraco.Cms.Core.Models.Blocks
+﻿@using System.Text.Json;
+@using Umbraco.Cms.Core.Models.Blocks
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HomePage>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @using Babatoobin_II.Controllers;
+@inject Umbraco.Cms.Web.Common.UmbracoHelper _umbracoHelper;
 
 @{
     Layout = "Layout.cshtml";
     var bannerImage = Model.BannerImage;
+    string? actionName = (string?)TempData["Originator"];
+    string? tempData = (string?)TempData["SearchResults"];
+
+    List<ProductBlock?>? items = new List<ProductBlock?>();
+    if (tempData != null)
+    {
+        string[]? results = JsonSerializer.Deserialize<string[]?>(tempData!);
+        foreach (var res in results!)
+        {
+            if (_umbracoHelper.Content(res)!.HasProperty("detailLink"))
+            {
+                items.Add((ProductBlock?)_umbracoHelper.Content(res));
+            }
+        }
+    }
 }
+
 <partial name="_StatusMessage" />
 
 <style>
@@ -31,7 +49,6 @@
 </section><!-- End Hero -->
 
 <main id="main">
-
     <!-- ======= Clients Section ======= -->
     <section id="clients" class="clients">
         <div class="container">
@@ -102,36 +119,6 @@
 
         </div>
     </section><!-- End About Section -->
-    @*     <!-- ======= Counts Section ======= -->
-    <section id="counts" class="counts">
-    <div class="container">
-
-    <div class="row counters">
-
-    <div class="col-lg-3 col-6 text-center">
-    <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-    <p>Clients</p>
-    </div>
-
-    <div class="col-lg-3 col-6 text-center">
-    <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-    <p>Projects</p>
-    </div>
-
-    <div class="col-lg-3 col-6 text-center">
-    <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-    <p>Hours Of Support</p>
-    </div>
-
-    <div class="col-lg-3 col-6 text-center">
-    <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-    <p>Hard Workers</p>
-    </div>
-
-    </div>
-
-    </div>
-    </section><!-- End Counts Section --> *@
 
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
@@ -273,8 +260,6 @@
                     </ul>
                 </div>
             </div>
-
-
 
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
@@ -444,15 +429,15 @@
 
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required autocomplete="off">
                                 </div>
                                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required autocomplete="off">
                                 </div>
                             </div>
 
                             <div class="form-group mt-3">
-                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required autocomplete="off">
                             </div>
 
                             <div class="form-group mt-3">
@@ -477,8 +462,96 @@
 
 </main><!-- End #main -->
 
-<script src="~/js/mapicon.js"></script> 
+<div id="popup" class="hidden">
+    <div class="popup-content">
+        <span class="close-btn" style="color:deeppink;">&times;</span>
+        <h4>Search results</h4>
+        <hr />
+
+        <p id="content">
+            @if (items.Count() > 0)
+            {
+
+                var msg = (items.Count() > 1 || items.Count() == 0) ? "results found" : "result found";
+                <h4 id="info">@items.Count() @msg</h4>
+                <br />
+
+                @foreach (ProductBlock? item in items)
+                {
+                    <a href="@item!.DetailLink?.Url?productId=@item.Id" title="More Details"> <i class="bx bx-link"> </i>@item.Headline</a>
+                    <br />
+                }
+
+            }
+            else if (actionName == "SearchAction")
+            {
+                <div id="info">No results</div>
+            }
+
+        </p>
+    </div>
+</div>
+
+<script src="~/js/mapicon.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9m90eFNzIMq3_iapaF5thOom-CxPe1pw&loading=async&callback=myMap" async defer> </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+
+
+</style>
+<script>
+    $(document).ready(function () {
+
+        if ($('#info').length > 0) {
+            var text = $('#info')[0].innerHTML;
+            //console.log(parseInt(text));
+            //console.log(text);
+            if (text.includes('result')) {
+
+                var ht = parseInt(text) * 30 + 150
+                if (isNaN(ht)) { ht = 180; }
+                console.log(ht);
+                popup(Math.min(ht, 300));
+            }
+        }
+
+        $('.close-btn').click(function () {
+            $('#popup').animate({
+                width: '0',
+                height: '0',
+                opacity: '0'
+            }, 500, function () {
+                $(this).css('display', 'none');
+            });
+        });
+        //not working
+        $('.search').submit(function (e) {
+            debugger;
+            // check logic here
+            console.log('thin');
+            if ($('.search').val().length < 1)
+                e.preventDefault()
+        });
+    });
+
+    function popup(heightParam) {
+        $('#popup').css({
+            display: 'block',
+            width: '0',
+            height: '0',
+            opacity: '0',
+            overflow: 'scroll',
+            scrollbarColor: '#E85BEB #BD8EBE  '
+        }).animate({
+            width: '300px',
+            height: heightParam,
+            opacity: '0.95'
+        }, 500);
+
+    }
+
+
+</script>
 
 <div class="infobox" id="infobox-content" hidden>
     <h3 style'color:blue;'>Babatoobins</h3>
