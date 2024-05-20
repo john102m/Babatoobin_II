@@ -1,0 +1,6 @@
+﻿:root {
+    /*// Hide the SVG shaped curves*/
+    --umb-curves-display: none!important;
+    /*// Set the color and transparency of the SVG shape*/
+    --umb-curves-color: rgba(0, 0, 0, 0.4);
+}

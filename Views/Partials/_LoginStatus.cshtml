@@ -15,13 +15,13 @@
 @if (isLoggedIn)
 {
     <div style="margin-right:20px;margin-bottom:5px;">
-
-        <span>Welcome back <strong>@Context?.User?.Identity?.Name</strong>!</span>
+        <span class="notmobile">Welcome back <strong>@Context?.User?.Identity?.Name</strong>!</span>
 
         @using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogout", new { RedirectUrl = logoutModel.RedirectUrl }))
         {
-            <button type="submit" style="  background:#E85BEB ;padding: 5px 15px;margin-left: 30px;margin-right: 15px;border-radius: 50px;color: #fff;">
-                Log out
+            <button type="submit" style="background:#E85BEB ;padding: 5px 15px;margin-left: 30px;margin-right: 15px;border-radius: 50px;color: #fff;">
+                <span class="notmobile">Log out</span>
+                <span class="onlymobile"><i class="bi bi-box-arrow-right"></i></span>
             </button>
         }
 

@@ -326,6 +326,12 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
 .photo-image {
     display: none;
 }
+.notmobile {
+    display: block;
+}
+.onlymobile {
+    display: none;
+}
 
 @media only screen and (max-width: 600px) {
     .square-image {
@@ -333,6 +339,12 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
     }
 
     .photo-image {
+        display: block;
+    }
+    .notmobile {
+        display: none;
+    }
+    .onlymobile {
         display: block;
     }
 
@@ -345,6 +357,7 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
     }
     .search-bar {
         padding: 5px 15px;
+
     }
     .search-button {
         background: #fff!important;
@@ -355,7 +368,7 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
     float:right; 
     border: 0px;
     background:#E85BEB;
-    padding: 5px 10px;
+    padding: 8px 10px;
     margin-left: 10px;
     margin-right: 10px;
     border-radius: 50px;
@@ -364,4 +377,5 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
 .search-bar {
     max-width: 300px;
     padding: 5px 15px;
+
 }

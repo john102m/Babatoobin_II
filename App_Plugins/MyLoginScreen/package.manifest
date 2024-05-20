@@ -1,0 +1,6 @@
+{
+  "css": [
+    "~/App_Plugins/MyLoginScreen/styles.css"
+  ],
+  "bundleOptions": "None"
+}
