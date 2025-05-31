@@ -316,3 +316,66 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
     max-width: 100%;
     height: auto;
 }
+
+
+/* ---------- IMAGE DIMENSIONS GETCROPURL ---------- */
+.square-image {
+    display: block;
+}
+
+.photo-image {
+    display: none;
+}
+.notmobile {
+    display: block;
+}
+.onlymobile {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .square-image {
+        display: none;
+    }
+
+    .photo-image {
+        display: block;
+    }
+    .notmobile {
+        display: none;
+    }
+    .onlymobile {
+        display: block;
+    }
+
+}
+/* Mobile styles */
+@media (max-width: 992px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .search-bar {
+        padding: 5px 15px;
+
+    }
+    .search-button {
+        background: #fff!important;
+        color: #E85BEB!important;
+    }
+}
+.search-button {
+    float:right; 
+    border: 0px;
+    background:#E85BEB;
+    padding: 8px 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 50px;
+    color: #fff;
+}
+.search-bar {
+    max-width: 300px;
+    padding: 5px 15px;
+
+}

@@ -5,25 +5,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Block Grid Examples</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Babatoobins</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="@Url.Content("~/css/myblockgridlayout.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/css/main.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/css/style.css")" />
-
-
+    <link rel="shortcut icon" href="@Url.Content("~/images/favicon.ico?v=1")"  type="image/x-icon">
     <!-- Vendor CSS Files -->
     <link rel="stylesheet" href="@Url.Content("~/vendor/aos/aos.css")" />
     <link rel="stylesheet" href="@Url.Content("~/vendor/bootstrap/css/bootstrap.min.css")" />
     <link rel="stylesheet" href="@Url.Content("~/vendor/bootstrap-icons/bootstrap-icons.css")" />
-
 
     @* no bootstrap here  *@
     <link rel="stylesheet" href="@Url.Content("~/vendor/boxicons/css/boxicons.min.css")" />
@@ -31,33 +28,21 @@
     <link rel="stylesheet" href="@Url.Content("~/vendor/remixicon/remixicon.css")" />
     <link rel="stylesheet" href="@Url.Content("~/vendor/swiper/swiper-bundle.min.css")" />
 
+    <link rel="stylesheet" href="@Url.Content("~/css/myblockgridlayout.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/main.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/style.css")" />
 
 
 </head>
 <body>
-    <!-- Navigation -->
-    @* @await Html.PartialAsync("Navigation") *@
-    <!-- Jumbotron, w title -->
 
     @await Html.PartialAsync("PageHeader")
-    <!-- This is where we're going to render our content -->
-
 
     @RenderBody()
-    <!-- Footer -->
-    <div class="container-fluid footer">
-        <div class="container">
 
-            @Model.Value("footerText", fallback: Fallback.ToDefaultValue, defaultValue: new HtmlString("Copyright 2024 Babatoobins"))
-            <div class="text-center">
-                <img src="/images/arm_with_u_logo.png" class="img-fluid" alt="Arm with Umbraco Logo">
-            </div>
-        </div>
+    @await Html.PartialAsync("PageFooter")
 
-    </div>
-    </div>
 
-    <!-- Scripts -->
     <!-- Vendor JS Files -->
     <script src="~/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="~/vendor/aos/aos.js"></script>
@@ -69,11 +54,10 @@
 
     <!-- Template Main JS File -->
     <script src="~/js/main.js"></script>
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 @*     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9m90eFNzIMq3_iapaF5thOom-CxPe1pw&loading=async&callback=myMap" async defer></script> *@
+
 </body>
 </html>
 

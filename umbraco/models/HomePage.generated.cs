@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>HomePage</summary>
+	/// <summary>Home Page</summary>
 	[PublishedModel("homePage")]
 	public partial class HomePage : PublishedContentModel, ITitleBlock
 	{
@@ -66,7 +66,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string AboutText => this.Value<string>(_publishedValueFallback, "aboutText");
 
 		///<summary>
-		/// About Title
+		/// About Heading
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
@@ -80,6 +80,22 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("bulletPoints")]
 		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel BulletPoints => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "bulletPoints");
+
+		///<summary>
+		/// CTA
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("cTA")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListItem<global::Umbraco.Cms.Web.Common.PublishedModels.CallToActionBlock> CTA => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListItem<global::Umbraco.Cms.Web.Common.PublishedModels.CallToActionBlock>>(_publishedValueFallback, "cTA");
+
+		///<summary>
+		/// Email Recipients
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.3.0+a325ba3")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("emailRecipients")]
+		public virtual global::System.Collections.Generic.IEnumerable<string> EmailRecipients => this.Value<global::System.Collections.Generic.IEnumerable<string>>(_publishedValueFallback, "emailRecipients");
 
 		///<summary>
 		/// Banner Image

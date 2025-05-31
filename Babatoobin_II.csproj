@@ -1,9 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <!--<RuntimeIdentifier>linux-x64</RuntimeIdentifier>-->
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins\MyLoginScreen\package.manifest" />
+    <Content Include="App_Plugins\MyLoginScreen\styles.css" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Umbraco.BlockGrid.Example.Website" Version="1.0.2" />

@@ -1,4 +1,10 @@
+using Babatoobin_II.Services;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddTransient<ISearchService, SearchService>();
+
 
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
@@ -11,7 +17,6 @@ WebApplication app = builder.Build();
 
 await app.BootUmbracoAsync();
 
-
 app.UseUmbraco()
     .WithMiddleware(u =>
     {
@@ -20,6 +25,7 @@ app.UseUmbraco()
     })
     .WithEndpoints(u =>
     {
+        u.EndpointRouteBuilder.MapControllerRoute(name: "default", pattern: "/{controllername}/{action}/{id}");
         u.UseInstallerEndpoints();
         u.UseBackOfficeEndpoints();
         u.UseWebsiteEndpoints();
