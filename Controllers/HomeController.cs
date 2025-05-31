@@ -48,7 +48,7 @@ namespace Babatoobin_II.Controllers
 
         [HttpPost]
         [ValidateUmbracoFormRouteString]
-        public async Task<IActionResult> MyIndex()
+        public async Task<IActionResult> Search()
         {            
             Originator = "SearchAction";
             

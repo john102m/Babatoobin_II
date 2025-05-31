@@ -119,7 +119,6 @@
 
         </div>
     </section><!-- End About Section -->
-
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
         <div class="container">
@@ -268,7 +267,7 @@
                     {
                         <div class="col-lg-4 col-md-6 portfolio-item filter-@product.Category">
                             <div class="portfolio-wrap">
-
+                            
                                 <span class="square-image">
                                     <img src="@product.Image?.GetCropUrl("square")" class="img-fluid" alt="">
                                 </span>
@@ -366,7 +365,7 @@
                                     </p>
                                     <img src="~/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
                                     <h3>Chad Hogan</h3>
-                                    <h4>Twat</h4>
+                                    <h4>Person</h4>
                                 </div>
                             </div><!-- End testimonial item -->
 
@@ -467,27 +466,22 @@
         <span class="close-btn" style="color:deeppink;">&times;</span>
         <h4>Search results</h4>
         <hr />
-
         <p id="content">
             @if (items.Count() > 0)
             {
-
                 var msg = (items.Count() > 1 || items.Count() == 0) ? "results found" : "result found";
                 <h4 id="info">@items.Count() @msg</h4>
                 <br />
-
                 @foreach (ProductBlock? item in items)
                 {
                     <a href="@item!.DetailLink?.Url?productId=@item.Id" title="More Details"> <i class="bx bx-link"> </i>@item.Headline</a>
                     <br />
                 }
-
             }
             else if (actionName == "SearchAction")
             {
                 <div id="info">No results</div>
             }
-
         </p>
     </div>
 </div>
