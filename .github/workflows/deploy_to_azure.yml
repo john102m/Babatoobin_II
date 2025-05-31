@@ -4,9 +4,11 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - babatoobins
 
 on:
-  push:
+  pull_request:
     branches:
       - master
+    types:
+      - closed  # This ensures it only runs when the PR is merged
   workflow_dispatch:
 
 jobs:
