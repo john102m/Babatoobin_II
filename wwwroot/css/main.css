@@ -333,7 +333,7 @@ ul.footer-links li a:hover, ul.footer-links li a:focus {
     display: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     .square-image {
         display: none;
     }

@@ -162,7 +162,7 @@
                         </div>
                     </div><!-- End .content-->
                 </div>
-            </div>        
+            </div>
         </div>
     </section><!-- End Why Us Section -->
     <!-- ======= Cta Section ======= -->
@@ -265,7 +265,7 @@
                     {
                         <div class="col-lg-4 col-md-6 portfolio-item filter-@product.Category">
                             <div class="portfolio-wrap">
-                            
+
                                 <span class="square-image">
                                     <img src="@product.Image?.GetCropUrl("square")" class="img-fluid" alt="">
                                 </span>
@@ -280,7 +280,9 @@
                                     <div class="portfolio-links">
 
                                         <a href="@product.Image?.Url()" data-gallery="portfolioGallery" class="portfolio-lightbox" title="@product.Headline"><i class="bx bx-plus"></i></a>
-                                        <a href="@product.DetailLink?.Url?productId=@product.Id" title="More Details"><i class="bx bx-link"></i></a>
+                                        <div class="notmobile">
+                                            <a href="@product.DetailLink?.Url?productId=@product.Id" title="More Details"><i class="bx bx-link"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -493,7 +495,21 @@
 </style>
 <script>
     $(document).ready(function () {
+        function updateClickFunction() {
+            if ($(window).width() <= 799) {
+                $(".portfolio-info").off("click").on("click", function () {
+                    window.location.href = $(this).find(".notmobile a").attr("href");
+                });
+            } else {
+                $(".portfolio-info").off("click"); // Remove click behavior when resizing back
+            }
+        }
 
+        updateClickFunction(); // Run on initial load
+
+        $(window).resize(function () {
+            updateClickFunction(); // Run whenever window resizes
+        });
         if ($('#info').length > 0) {
             var text = $('#info')[0].innerHTML;
             //console.log(parseInt(text));
